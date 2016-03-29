@@ -1,7 +1,7 @@
 
 package ohtu.verkkokauppa;
 
-public class Tuote {
+public class Tuote implements ITuote {
     private int id;
     private String nimi;
     private int hinta;
@@ -14,15 +14,17 @@ public class Tuote {
 
     @Override
     public boolean equals(Object o) {
-        Tuote t = (Tuote)o;
+        ITuote t = (ITuote)o;
         
-        return id==t.id;
+        return id==t.getId();
     }
 
+    @Override
     public int getId() {
         return id;
     }
 
+    @Override
     public int getHinta() {
         return hinta;
     }

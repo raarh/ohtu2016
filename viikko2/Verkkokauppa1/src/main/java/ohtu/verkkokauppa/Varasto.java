@@ -2,45 +2,39 @@ package ohtu.verkkokauppa;
 
 import java.util.*;
 
-public class Varasto {
-
-    private static Varasto instanssi;
-
-    public static Varasto getInstance() {
-        if (instanssi == null) {
-            instanssi = new Varasto();
-        }
-
-        return instanssi;
-    }
+public class Varasto implements IVarasto {
+ 
+    private IKirjanpito kirjanpito;
+    private HashMap<ITuote, Integer> saldot;  
     
-    private Kirjanpito kirjanpito;
-    private HashMap<Tuote, Integer> saldot;  
-    
-    public Varasto() {
-        kirjanpito = Kirjanpito.getInstance();
-        saldot = new HashMap<Tuote, Integer>();
+    public Varasto(Kirjanpito kirjanpito) {
+        this.kirjanpito = kirjanpito;
+        saldot = new HashMap<ITuote, Integer>();
         alustaTuotteet();
     }
             
-    public Tuote haeTuote(int id){
-        for (Tuote t : saldot.keySet()) {
+    @Override
+    public ITuote haeTuote(int id){
+        for (ITuote t : saldot.keySet()) {
             if ( t.getId()==id) return t;
         }
         
         return null;
     }
 
+    @Override
     public int saldo(int id){
         return saldot.get(haeTuote(id));
     }
     
-    public void otaVarastosta(Tuote t){        
+    @Override
+    public void otaVarastosta(ITuote t){        
         saldot.put(t,  saldo(t.getId())-1 );
         kirjanpito.lisaaTapahtuma("otettiin varastosta "+t);
     }
     
-    public void palautaVarastoon(Tuote t){
+    @Override
+    public void palautaVarastoon(ITuote t){
         saldot.put(t,  saldo(t.getId())+1 );
         kirjanpito.lisaaTapahtuma("palautettiin varastoon "+t);
     }    

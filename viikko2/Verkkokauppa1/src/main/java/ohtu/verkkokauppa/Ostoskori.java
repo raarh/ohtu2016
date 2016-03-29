@@ -1,27 +1,30 @@
 package ohtu.verkkokauppa;
 
-import java.util.ArrayList;
+import java.util.*;
 
-public class Ostoskori {
+public class Ostoskori implements IOstoskori {
 
-    ArrayList<Tuote> tuotteet;
+    List<ITuote> tuotteet;
 
     public Ostoskori() {
-        tuotteet = new ArrayList<Tuote>();
+        tuotteet = new ArrayList<ITuote>();
     }
 
-    public void lisaa(Tuote t) {
+    @Override
+    public void lisaa(ITuote t) {
         tuotteet.add(t);
     }
 
-    public void poista(Tuote t) {
+    @Override
+    public void poista(ITuote t) {
         tuotteet.remove(t);
     }
 
+    @Override
     public int hinta() {
         int hinta = 0;
 
-        for (Tuote tuote : tuotteet) {
+        for (ITuote tuote : tuotteet) {
             hinta += tuote.getHinta();
         }
 
